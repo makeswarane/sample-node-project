@@ -1,0 +1,45 @@
+@if(!isOTPSent){
+<form [formGroup]="emailVerificationForm" class="container" fxLayout="column" fxLayoutGap="20px" appCenter data-control="email-verification-form">
+    <h2 data-control="otp-form-heading">Verify OTP</h2>
+    <mat-form-field appearance="outline">
+        <mat-label data-control="email-field-label">Email</mat-label>
+        <input matInput placeholder="Email" formControlName="email" data-control="email-field">
+        @if(emailVerificationForm.get('email')?.errors?.['required']){
+        <mat-error data-control="email-field-error">This field is required</mat-error>
+        }
+        @if(emailVerificationForm.get('email')?.errors?.['email']){
+        <mat-error data-control="email-field-error">Invalid Email</mat-error>
+        }
+    </mat-form-field>
+    <button mat-raised-button (click)="verifyEmail()" data-control="send-otp-btn">Send OTP</button>
+    <div fxLayout="row" fxLayoutAlign="end center">
+        <div class="login-link pointer" fxLayout="row" routerLink="/login" data-control="back-to-login-btn">
+            <mat-icon>arrow_back</mat-icon>
+            <div>Go to Login</div>
+        </div>
+    </div>
+</form>
+}
+@if(isOTPSent){
+<form [formGroup]="otpVerificationForm" class="container" fxLayout="column" fxLayoutGap="20px" appCenter data-control="otp-verification-form">
+    <h2 data-control="otp-form-heading">Verify OTP</h2>
+    <mat-form-field appearance="outline">
+        <mat-label data-control="email-field-label">Email</mat-label>
+        <input matInput placeholder="Email" formControlName="email" data-control="email-field">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label data-control="otp-field-label">OTP</mat-label>
+        <input matInput placeholder="Enter your OTP" formControlName="otp" data-control="otp-field">
+        @if(otpVerificationForm.get('otp')?.errors?.['required'] && !otpVerificationForm.get('otp')?.errors?.['pattern']){
+        <mat-error data-control="otp-field-error">This field is required</mat-error>
+        }
+        @if(otpVerificationForm.get('otp')?.hasError('pattern') && !otpVerificationForm.get('otp')?.errors?.['minlength']){
+        <mat-error data-control="otp-field-error">Invalid OTP</mat-error>
+        }
+        @if(otpVerificationForm.get('otp')?.hasError('minlength') || otpVerificationForm.get('otp')?.hasError('maxlength') && !otpVerificationForm.get('otp')?.errors?.['pattern']){
+        <mat-error data-control="otp-field-error">Enter 4 digit OTP</mat-error>
+        }
+    </mat-form-field>
+    <button mat-raised-button (click)="verifyOTP()" data-control="verify-otp-btn">Verify OTP</button>
+</form>
+}

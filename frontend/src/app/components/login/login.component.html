@@ -1,0 +1,37 @@
+<div class="container" data-control="login-container" fxLayout="row" fxLayoutAlign="center center">
+    <form [formGroup]="loginForm" fxFlex="350px" fxLayout="column" fxLayoutGap="20px" appCenter data-control="login-form">
+        <h2 data-control="login-heading">Login</h2>
+        <!-- Email -->
+        <mat-form-field appearance="outline">
+            <mat-label data-control="email-field-label">Email</mat-label>
+            <input matInput placeholder="Email" formControlName="email" data-control="email-field">
+            @if(loginForm.get('email')?.hasError('required')){
+            <mat-error data-control="email-field-error">{{ messages?.REQUIRED_FIELD }}</mat-error>
+            }
+            @if(loginForm.get('email')?.hasError('email') && !loginForm.get('email')?.hasError('required')){
+            <mat-error data-control="email-field-error">{{ messages?.INVALID_EMAIL }}</mat-error>
+            }
+        </mat-form-field>
+        <!-- Password -->
+        <mat-form-field appearance="outline">
+            <mat-label data-control="password-field-label">Password</mat-label>
+            <input matInput type="password" placeholder="Password" formControlName="password"
+                data-control="password-field">
+            @if(loginForm.get('password')?.hasError('required')){
+            <mat-error data-control="password-field-error">{{ messages?.REQUIRED_FIELD }}</mat-error>
+            }
+            @if(loginForm.get('password')?.hasError('minlength')){
+            <mat-error data-control="password-field-error">{{ messages?.PASSWORD_LENGTH_ERROR }}</mat-error>
+            }
+        </mat-form-field>
+        <button mat-flat-button color="primary" (click)="signIn()" data-control="login-btn">Login</button>
+        <div fxLayout="row" fxLayoutAlign="end center">
+            <div class="forget-password-link pointer" routerLink="/forgetpassword" data-control="forget-password-link">
+                Forget Password ?</div>
+        </div>
+        <div>
+            <div data-control="signup-text">Don't have an Account? <span class="signup-link pointer"
+                    routerLink="/signup" data-control="signup-link">Signup</span></div>
+        </div>
+    </form>
+</div>

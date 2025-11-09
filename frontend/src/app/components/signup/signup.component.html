@@ -1,0 +1,72 @@
+<div class="container" fxLayout="row" fxLayoutAlign="center center">
+    @if(signupForm){
+        <form [formGroup]="signupForm" fxFlex="350px" fxLayout="column" fxLayoutGap="20px" appCenter>
+            <h2>Signup</h2>
+            <!-- Name -->
+            <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput placeholder="Name" formControlName="name">
+                @if(signupForm.get('name')?.errors?.['required']){
+                <mat-error>{{ messages?.REQUIRED_FIELD }}</mat-error>
+                }
+                @if(signupForm.get('name')?.errors?.['minlength'] || signupForm.get('name')?.errors?.['maxlength']){
+                <mat-error>{{ messages?.NAME_LENGTH_ERROR }}</mat-error>
+                }
+            </mat-form-field>
+            <!-- Email -->
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Email" formControlName="email">
+                @if(signupForm.get('email')?.errors?.['required']){
+                <mat-error>{{ messages?.REQUIRED_FIELD }}</mat-error>
+                }
+                @if(signupForm.get('email')?.errors?.['email']){
+                <mat-error>{{ messages?.INVALID_EMAIL }}</mat-error>
+                }
+            </mat-form-field>
+            <!-- Phone Number -->
+            <mat-form-field appearance="outline">
+                <mat-label>Phone Number</mat-label>
+                <input matInput placeholder="Phone Number" formControlName="phoneNumber">
+                @if(signupForm.get('phoneNumber')?.errors?.['required']){
+                <mat-error>{{ messages?.REQUIRED_FIELD }}</mat-error>
+                }
+                @if(signupForm.get('phoneNumber')?.errors?.['pattern'] && !signupForm.get('phoneNumber')?.errors?.['minlength']){
+                <mat-error>{{ messages?.INVALID_PHONE_NUMBER }}</mat-error>
+                }
+                @if(signupForm.get('phoneNumber')?.errors?.['minlength'] || signupForm.get('phoneNumber')?.errors?.['maxlength'] && !signupForm.get('phoneNumber')?.errors?.['pattern']){
+                <mat-error>{{ messages?.PHONE_NUMBER_LENGTH_ERROR }}</mat-error>
+                }
+            </mat-form-field>
+            <!-- Password -->
+            <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" placeholder="Password" formControlName="password">
+                @if(signupForm.get('password')?.hasError('required')){
+                <mat-error>{{ messages?.REQUIRED_FIELD }}</mat-error>
+                }
+                @if(signupForm.get('password')?.hasError('minlength')){
+                <mat-error>{{ messages?.PASSWORD_LENGTH_ERROR }}</mat-error>
+                }
+            </mat-form-field>
+            <!-- Confirm Password -->
+            <mat-form-field appearance="outline">
+                <mat-label>Confirm Password</mat-label>
+                <input matInput type="password" placeholder="Confirm Password" formControlName="confirmPassword">
+                @if(signupForm.get('confirmPassword')?.hasError('required') && !signupForm.get('confirmPassword')?.errors?.['unmatchPassword']){
+                <mat-error>{{ messages?.REQUIRED_FIELD }}</mat-error>
+                }
+                @if(signupForm.get('confirmPassword')?.errors?.['unmatchPassword'] && !signupForm.get('confirmPassword')?.hasError('required')){
+                <mat-error>{{ messages?.PASSWORD_MISMATCH }}</mat-error>
+                }
+                @if(signupForm.get('confirmPassword')?.hasError('minlength')){
+                <mat-error>{{ messages?.PASSWORD_LENGTH_ERROR }}</mat-error>
+                }
+            </mat-form-field>
+            <button mat-flat-button color="primary" (click)="onSubmit()">Signup</button>
+            <div>
+                <div>Already have an Account? <span class="signup-link pointer" routerLink="/login">Login</span></div>
+            </div>
+        </form>
+    }
+</div>
