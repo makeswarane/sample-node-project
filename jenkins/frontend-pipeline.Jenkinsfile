@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'myapp-frontend:$BUILD_NUMBER'
-        SONAR_PROJECT_KEY = 'my-angular-frontend'
+        DOCKER_IMAGE = "myapp-frontend:$BUILD_NUMBER"
+        SONAR_PROJECT_KEY = "my-angular-frontend"
     }
 
     stages {
@@ -46,7 +46,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 dir('frontend') {
-                    sh 'docker build -t $DOCKER_IMAGE .'
+                    sh "docker build -t $DOCKER_IMAGE ."
                 }
             }
         }
@@ -62,22 +62,22 @@ pipeline {
             steps {
                 script {
                     // Run container in detached mode and store its ID
-                    sh 'docker run -d -p 4200:80 $DOCKER_IMAGE > container_id.txt'
+                    sh "docker run -d -p 4200:80 $DOCKER_IMAGE > container_id.txt"
                 }
             }
         }
 
-        stage('Stop Docker Container') {
-            steps {
-                script {
-                    // Read container ID and stop it
-                    sh '''
-                        CONTAINER_ID=$(cat container_id.txt)
-                        docker stop $CONTAINER_ID
-                        docker rm $CONTAINER_ID
-                    '''
-                }
-            }
-        }
+        // stage('Stop Docker Container') {
+        //     steps {
+        //         script {
+        //             // Read container ID and stop it
+        //             sh '''
+        //                 CONTAINER_ID=$(cat container_id.txt)
+        //                 docker stop $CONTAINER_ID
+        //                 docker rm $CONTAINER_ID
+        //             '''
+        //         }
+        //     }
+        // }
     }
 }
