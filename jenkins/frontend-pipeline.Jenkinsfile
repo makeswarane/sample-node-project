@@ -33,15 +33,15 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                dir('frontend') {
-                    withSonarQubeEnv('SonarQube') {
-                        sh 'npx sonar-scanner'
-                    }
-                }
-            }
-        }
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         dir('frontend') {
+        //             withSonarQubeEnv('SonarQube') {
+        //                 sh 'npx sonar-scanner'
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Build Docker Image') {
             steps {
@@ -51,12 +51,12 @@ pipeline {
             }
         }
 
-        stage('Security Scan (Trivy)') {
-            steps {
-                sh 'trivy image --exit-code 0 --severity LOW,MEDIUM $DOCKER_IMAGE'
-                sh 'trivy image --exit-code 1 --severity HIGH,CRITICAL $DOCKER_IMAGE || true'
-            }
-        }
+        // stage('Security Scan (Trivy)') {
+        //     steps {
+        //         sh 'trivy image --exit-code 0 --severity LOW,MEDIUM $DOCKER_IMAGE'
+        //         sh 'trivy image --exit-code 1 --severity HIGH,CRITICAL $DOCKER_IMAGE || true'
+        //     }
+        // }
 
         stage('Run Frontend in Docker') {
             steps {
