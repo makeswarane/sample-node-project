@@ -20,7 +20,7 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                // git branch: 'main', url: 'https://github.com/Hackwing/sample-node-devsecops.git'
+                git branch: 'main', url: 'https://github.com/makeswarane/sample-node-project.git'
                 checkout scm
             }
         }
