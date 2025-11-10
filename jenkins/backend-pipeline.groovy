@@ -1,13 +1,11 @@
 pipeline {
-    // agent {
-    //     label 'slave-node'
-    // }
-
     agent any
 
     environment {
-        DOCKER_IMAGE = 'myapp-backend'
-        SONAR_PROJECT_KEY = 'my-node-backend'
+        DOCKERHUB_USER = "makeswarane"                      // 🔹 your Docker Hub username
+        DOCKER_REPO = "makeswarane/myapp-backend"           // 🔹 your Docker Hub repo name
+        DOCKER_IMAGE = "myapp-backend:$BUILD_NUMBER"        // 🔹 dynamic image tag
+        SONAR_PROJECT_KEY = "my-node-backend"
     }
 
     stages {
@@ -40,6 +38,30 @@ pipeline {
             steps {
                 dir('backend') {
                     sh 'docker build -t $DOCKER_IMAGE .'
+                }
+            }
+        }
+
+        stage('Tag & Push to DockerHub') {
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'docker-cred', variable: 'DOCKER_PASSWORD')]) {
+                        sh """
+                            echo $DOCKER_PASSWORD | docker login -u ${DOCKERHUB_USER} --password-stdin
+
+                            # Tag image with repo name and build number
+                            docker tag $DOCKER_IMAGE $DOCKER_REPO:$BUILD_NUMBER
+
+                            # Also tag as latest
+                            docker tag $DOCKER_IMAGE $DOCKER_REPO:latest
+
+                            # Push both tags
+                            docker push $DOCKER_REPO:$BUILD_NUMBER
+                            docker push $DOCKER_REPO:latest
+
+                            docker logout
+                        """
+                    }
                 }
             }
         }
