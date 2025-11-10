@@ -32,7 +32,7 @@ jobs:
           context: ./frontend
           file: ./frontend/Dockerfile
           push: true
-          tags: your-dockerhub-makeswarane/frontend:latest
+          tags: makeswarane/frontend:latest
 
            # Deploy to Kubernetes
       - name: Setup kubectl
