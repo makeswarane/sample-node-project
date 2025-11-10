@@ -118,4 +118,4 @@ pipeline {
                  body: "Build failed. Check details: ${env.BUILD_URL}"
         }
     }
-}
+}}
