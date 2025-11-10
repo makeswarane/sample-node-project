@@ -105,17 +105,17 @@ pipeline {
         //             '''
         //         }
         //     }
-        // }
-        post {
-            success {
-                mail to: 'emakeshwaran1@gmail.com',
-                     subject: "✅ Jenkins Build Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                     body: "Build successful! Check console: ${env.BUILD_URL}"
-            }
-            failure {
-                mail to: 'emakeshwaran1@gmail.com',
-                     subject: "❌ Jenkins Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                     body: "Build failed. Check details: ${env.BUILD_URL}"
-            }
+     }
+        post {   // <-- move post block here, outside stages
+        success {
+            mail to: 'emakeshwaran1@gmail.com',
+                 subject: "✅ Jenkins Build Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "Build successful! Check console: ${env.BUILD_URL}"
         }
+        failure {
+            mail to: 'emakeshwaran1@gmail.com',
+                 subject: "❌ Jenkins Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "Build failed. Check details: ${env.BUILD_URL}"
+        }
+    }
 }
