@@ -2,6 +2,8 @@ pipeline {
     agent any
 
     environment {
+        DOCKERHUB_USER = "makeswarane"
+        DOCKER_REPO = "makeswarane/myapp-frontend"
         DOCKER_IMAGE = "myapp-frontend:$BUILD_NUMBER"
         SONAR_PROJECT_KEY = "my-angular-frontend"
     }
@@ -47,6 +49,31 @@ pipeline {
             steps {
                 dir('frontend') {
                     sh "docker build -t $DOCKER_IMAGE ."
+                }
+            }
+        }
+
+        stage('Tag & Push to DockerHub') {
+            steps {
+                script {
+                    // Use Jenkins credential ID: 'docker-cred'
+                    withCredentials([string(credentialsId: 'docker-cred', variable: 'DOCKER_PASSWORD')]) {
+                        sh """
+                            echo $DOCKER_PASSWORD | docker login -u ${DOCKERHUB_USER} --password-stdin
+
+                            # Tag image with full repo name and build number
+                            docker tag $DOCKER_IMAGE $DOCKER_REPO:$BUILD_NUMBER
+
+                            # Also tag as latest
+                            docker tag $DOCKER_IMAGE $DOCKER_REPO:latest
+
+                            # Push both tags
+                            docker push $DOCKER_REPO:$BUILD_NUMBER
+                            docker push $DOCKER_REPO:latest
+
+                            docker logout
+                        """
+                    }
                 }
             }
         }
