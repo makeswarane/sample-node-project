@@ -1,5 +1,5 @@
 DevOps Assignments — Complete Steps
-(With GitHub Repo Setup & Office Link Submission)
+GitHub Repo https://github.com/makeswarane/sample-node-project
 📦 What this document contains
 
 A single, copy-ready step-by-step guide that covers every assignment in your brief (local-only, no cloud).
