@@ -1,25 +1,37 @@
 DevOps Assignments — Complete Steps
-GitHub Repo : https://github.com/makeswarane/sample-node-project
-
+(With GitHub Repo Setup & Office Link Submission)
 📦 What this document contains
+
 A single, copy-ready step-by-step guide that covers every assignment in your brief (local-only, no cloud).
 For each assignment you’ll find:
-    • Goal & prerequisites
-    • Exact installation commands (Ubuntu / Debian / WSL)
-    • Configuration files (Jenkinsfile, Dockerfile, docker-compose.yml, K8s manifests, Prometheus config, Grafana setup)
-    • Scripts & health checks
-    • Testing commands and verification steps
-    • Deliverables checklist & video recording script
-    • GitHub repo setup
-    • Office link submission guidelines
+
+Goal & prerequisites
+
+Exact installation commands (Ubuntu / Debian / WSL)
+
+Configuration files (Jenkinsfile, Dockerfile, docker-compose.yml, K8s manifests, Prometheus config, Grafana setup)
+
+Scripts & health checks
+
+Testing commands and verification steps
+
+Deliverables checklist & video recording script
+
+GitHub repo setup
+
+Office link submission guidelines
 
 🌍 Global Prerequisites (Applies to All Assignments)
 1️⃣ System Requirements
-    • OS: Ubuntu 22.04 / Debian / WSL2 / macOS
-    • User Permissions: Must be sudo user
+
+OS: Ubuntu 22.04 / Debian / WSL2 / macOS
+
+User Permissions: Must be sudo user
+
 2️⃣ Install Base Tools
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y curl git wget unzip apt-transport-https ca-certificates gnupg lsb-release
+
 3️⃣ Install Docker
 # Add Docker repo and GPG key
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -33,10 +45,12 @@ sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 # Allow user to use Docker
 sudo usermod -aG docker $USER
 newgrp docker
+
 4️⃣ Install Docker Compose (if not included)
 sudo curl -L "https://github.com/docker/compose/releases/download/v2.17.3/docker-compose-$(uname -s)-$(uname -m)" \
 -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
+
 5️⃣ Install Kubernetes Tools (Minikube + kubectl)
 # Minikube
 curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
@@ -50,6 +64,7 @@ kubectl version --client
 
 🧩 Assignment 1 — CI/CD Pipeline with Jenkins + Docker
 🎯 Goal
+
 Set up Jenkins in Docker to build, test, and run a Dockerized app from a GitHub repo.
 
 🧱 Dockerfile
@@ -80,6 +95,7 @@ EXPOSE 8080
 
 🧰 Build Jenkins Image
 docker build -t jenkins-docker:latest .
+
 ▶️ Run Jenkins
 docker run -d \
   --name jenkins \
@@ -89,10 +105,15 @@ docker run -d \
   jenkins-docker:latest
 
 ✅ Check Jenkins
-    1. Visit → http://localhost:8080
-    2. Get admin password:
-       docker exec -it jenkins cat /var/jenkins_home/secrets/initialAdminPassword
-    3. Install suggested plugins.
+
+Visit → http://localhost:8080
+
+Get admin password:
+
+docker exec -it jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+
+
+Install suggested plugins.
 
 🧭 GitHub Repo Setup
 # Initialize repo
@@ -101,7 +122,10 @@ git remote add origin https://github.com/<your-username>/sample-node-project.git
 git add .
 git commit -m "Initial commit"
 git push -u origin main
+
+
 ➡️ Example:
+
 Repo name: sample-node-project
 Contains: Jenkinsfile, Dockerfile, k8s/, monitoring/, compose/
 
@@ -132,44 +156,68 @@ pipeline {
     }
 }
 
+✅ You can see your app running at → http://localhost:8081
 
-1.4 Notifications 
-    • Slack → install Slack plugin, configure token + channel in Credentials.
-      post {
-        success { slackSend channel: '#builds', message: 'Build Success ✅' }
-        failure { slackSend channel: '#builds', message: 'Build Failed ❌' }
-      }
-    • Email → configure SMTP (e.g., Gmail) under Jenkins → Manage Jenkins → System → E-mail Notification.
+1.4 Notifications (Bonus)
+
+Slack → install Slack plugin, configure token + channel in Credentials.
+
+post {
+  success { slackSend channel: '#builds', message: 'Build Success ✅' }
+  failure { slackSend channel: '#builds', message: 'Build Failed ❌' }
+}
+
+
+Email → configure SMTP (e.g., Gmail) under Jenkins → Manage Jenkins → System → E-mail Notification.
 
 1.5 Verification
-    • Open Jenkins at http://localhost:8080
-    • Trigger build manually or from Git push
-    • Verify container running via:
-      docker ps
+
+Open Jenkins at http://localhost:8080
+
+Trigger build manually or from Git push
+
+Verify container running via:
+
+docker ps
 
 Assignment 2 — Kubernetes Deployment with Minikube
+
 (unchanged, except indentation + added missing code blocks)
+
 ✅ Added kubectl rollout status for deployment verification:
+
 kubectl rollout status deployment/myapp-deploy
 
 Assignment 3 — GitOps Workflow with Argo CD
+
 ✅ Added:
+
 kubectl get pods -n argocd
 kubectl get svc -n argocd
+
+
 To verify Argo CD installation before port-forwarding.
 
 Assignment 4 — GitHub Actions + K8s
+
 ✅ Added:
-    • Example k8s/ folder content reference for clarity:
+
+Example k8s/ folder content reference for clarity:
+
 k8s/
 ├── deployment.yaml
 └── service.yaml
-    • Self-hosted runner setup note:
+
+
+Self-hosted runner setup note:
+
 ./svc.sh install
 ./svc.sh start
 
 Assignment 5 — Infrastructure Automation with Docker Compose
+
 ✅ Added a health check and teardown section:
+
 # check services
 docker compose ps
 
@@ -180,7 +228,9 @@ docker compose logs -f
 docker compose down
 
 Assignment 6 — Monitoring with Prometheus + Grafana
+
 ✅ Added prometheus.yml example content:
+
 global:
   scrape_interval: 5s
 
@@ -188,39 +238,37 @@ scrape_configs:
   - job_name: 'myapp'
     static_configs:
       - targets: ['myapp:3000']
+
+
 ✅ Added Grafana setup steps:
-    1. Open Grafana → http://localhost:3000
-    2. Login → admin / admin
-    3. Add Data Source → Prometheus → URL: http://prometheus:9090
-    4. Import dashboard → + → Import → Paste ID 3662 (Node.js metrics dashboard)
+
+Open Grafana → http://localhost:3000
+
+Login → admin / admin
+
+Add Data Source → Prometheus → URL: http://prometheus:9090
+
+Import dashboard → + → Import → Paste ID 3662 (Node.js metrics dashboard)
 
 Deliverables Checklist
-Assignment
-Deliverable
-Verified
-1
-Jenkins pipeline running Docker build
-✅
-2
-App deployed on Minikube
-✅
-3
-Argo CD sync from Git
-✅
-4
-GitHub Actions CI/CD
-✅
-5
-Docker Compose setup.sh automation
-✅
-6
-Prometheus & Grafana dashboard
-✅
-
+Assignment	Deliverable	Verified
+1	Jenkins pipeline running Docker build	✅
+2	App deployed on Minikube	✅
+3	Argo CD sync from Git	✅
+4	GitHub Actions CI/CD	✅
+5	Docker Compose setup.sh automation	✅
+6	Prometheus & Grafana dashboard	✅
 Recording Script (for submission)
-    1. Open terminal → run docker ps
-    2. Show Jenkins build pipeline success
-    3. Open app in browser (http://localhost:8081)
-    4. Show kubectl get pods and Argo CD UI
-    5. Open Grafana → show metrics graph
-    6. End with explanation of flow: Git → Jenkins → Docker → K8s → Argo → Grafana
+
+Open terminal → run docker ps
+
+Show Jenkins build pipeline success
+
+Open app in browser (http://localhost:8081
+)
+
+Show kubectl get pods and Argo CD UI
+
+Open Grafana → show metrics graph
+
+End with explanation of flow: Git → Jenkins → Docker → K8s → Argo → Grafana
