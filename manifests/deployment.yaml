@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-app-deployment
+  name: myapp-frontend-deployment
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: node-app
+      app: myapp-frontend
   template:
     metadata:
       labels:
-        app: node-app
+        app: myapp-frontend
     spec:
       containers:
-      - name: node-app
-        image: iquantc/iquant-app:latest
+      - name: myapp-frontend
+        image: makeswarane/myapp-frontend:latest
         ports:
         - containerPort: 3000
