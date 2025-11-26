@@ -1,0 +1,25 @@
+const ERROR = {};
+const SUCCESS = {};
+ERROR.USER_EXIST = 'User already exist, Kindly signIn';
+ERROR.NO_USER_EXIST = 'No user exist with this email, Kindly signUp';
+ERROR.INAVLID_PASSWORD = 'Invalid password'
+ERROR.INAVLID_OTP = 'Invalid Otp'
+ERROR.OTP_EXPIRES = 'Otp expires !!!'
+ERROR.NEW_PASSWORD = 'New password cannot be an old password'
+ERROR.SUPER_USER_EXIST = 'User already exist !';
+ERROR.NO_OWNER_EXIST = 'No owner exist !';
+ERROR.UNNABLE_TO_UPDATE = 'Unnable to update the content !';
+ERROR.BUS_EXIST = 'Bus already exist with this Number plate !';
+ERROR.NO_BUS = 'No Buses available for the specified travels !';
+ERROR.TOO_MANY_REQUEST = 'To many request, please try again later !!!';
+
+SUCCESS.USER_CREATED = 'User have been successfully Created';
+SUCCESS.LOGEDIN = 'User have been successfully logedIn';
+SUCCESS.MAILED = 'For proceeding forget password mail has been sent';
+SUCCESS.OTP_VERIFIED = 'Otp verified successfully';
+SUCCESS.PASSWORD_UPDATED = 'New password have been updated';
+SUCCESS.OWNER_DETAILS = 'All owner details retrieved';
+SUCCESS.DETAILS_UPDATED = 'Details have been updated successfully';
+SUCCESS.BUS_DETAILS = 'Bus details registered successfully';
+SUCCESS.BUS_DETAILS_FETCHED = 'Bus details retrieved successfully';
+module.exports = { ERROR, SUCCESS };

@@ -1,0 +1,21 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "panels": [
+    {
+      "type": "graph",
+      "title": "Request Count",
+      "targets": [
+        {
+          "expr": "request_count",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        }
+      ]
+    }
+  ],
+  "title": "Sample App Metrics",
+  "schemaVersion": 27,
+  "version": 1
+}

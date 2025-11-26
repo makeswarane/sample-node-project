@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # Backend Node.js application
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: myapp-backend
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: admin
+      DB_PASS: roche938435
+      DB_NAME: povomah
+    networks:
+      - app-network
+
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: roche33
+      MYSQL_DATABASE: povomah
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: roche938435
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-network
+
+volumes:
+  db_data:
+
+networks:
+  app-network:

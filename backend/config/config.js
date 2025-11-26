@@ -1,0 +1,18 @@
+require('dotenv').config();
+CONFIG = {};
+CONFIG.app = process.env.APP || 'local';
+CONFIG.db_name = process.env.DB_NAME || 'povomah';
+CONFIG.db_user = process.env.DB_USER || 'root';
+CONFIG.db_pass = process.env.DB_PASS || 'root';
+CONFIG.db_host = process.env.DB_HOST || 'localhost';
+CONFIG.db_dialect = process.env.DB_DIALECT || 'mysql';
+CONFIG.db_port = process.env.DB_PORT || '3306';
+CONFIG.port = process.env.PORT || '3000';
+CONFIG.pool_max = process.env.POOL_MAX || '10';
+CONFIG.pool_min = process.env.POOL_MIN || '0';
+CONFIG.pool_idle_time = process.env.POOL_IDLE_TIME || '10000';
+CONFIG.jwt_encryption = process.env.JWT_ENCRYPTION || 'fcc1b5eebe593cbc26ad6036ed1134b03c1fe803e604086b9e05109796b9302dab86a59d609a3a1cef70a657ee33a7d51658084b779c2f86482f031da8b41856';
+CONFIG.jwt_expiresIn = process.env.JWT_EXPIRESIN || '1800000';
+CONFIG.secretKey = process.env.SECRETKEY || 'ace43c93f4a13ff81b21fdf4286290d0d023213790e033da8bf67eed060099052f4730dc21731fa54db4caffd4c9cbb2fa8c459ee50f00512714c12807e62fc0';
+CONFIG.email_user = process.env.EMAIL_USER || 'rochemichealr@gmail.com';
+CONFIG.email_pass = process.env.EMAIL_PASS || 'ydxb kner xhxa ggex';

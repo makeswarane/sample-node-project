@@ -1,0 +1,9 @@
+{
+    "REQUIRED_FIELD": "This field is required",
+    "NAME_LENGTH_ERROR": "Size must be within 3-20 letters",
+    "INVALID_EMAIL": "Invalid Email",
+    "INVALID_PHONE_NUMBER": "Invalid Phone Number",
+    "PHONE_NUMBER_LENGTH_ERROR": "Number length must be 10 digit",
+    "PASSWORD_LENGTH_ERROR": "Should be minimum 6 Letters",
+    "PASSWORD_MISMATCH": "Password doesn't match"
+}
